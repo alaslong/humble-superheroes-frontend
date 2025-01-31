@@ -11,17 +11,19 @@ const App = () => {
   });
 
   return (
-    <main className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">
-        Humble Superheroes Frontend
+    <main className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
+      <h1 className="text-4xl font-bold mb-8 text-gray-900 font-mono">
+        🦸 Humble Superheroes Frontend
       </h1>
+
       <AddSuperheroForm />
+
       {superheroesLoading ? (
-        <p className="text-blue-500 text-lg">Loading...</p>
-      ) : (
-        <div className="overflow-x-auto w-full max-w-4xl">
-          {superheroes && <SuperheroTable superheroes={superheroes} />}
+        <div className="flex items-center justify-center h-32">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
         </div>
+      ) : (
+        superheroes && <SuperheroTable superheroes={superheroes} />
       )}
     </main>
   );

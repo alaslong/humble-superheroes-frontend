@@ -12,9 +12,9 @@ export const AddSuperheroForm = () => {
   const createSuperheroMutation = useMutation({
     mutationFn: addSuperhero,
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['superheroes'] });
-      // Clear form fields
+      // Refreshes cached superheroes
+      queryClient.invalidateQueries({ queryKey: ["superheroes"] });
+      // Clear input fields
       setName("");
       setSuperpower("");
       setHumilityScore("");
@@ -28,7 +28,7 @@ export const AddSuperheroForm = () => {
   const handleAddSuperhero = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Simple validation
+    // Simple validation to ensure name, superpower, and humility score have been entered
     if (!name || !superpower || !humilityScore) {
       alert("Please fill in all fields.");
       return;
@@ -46,73 +46,73 @@ export const AddSuperheroForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleAddSuperhero}
-      className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 mb-6"
-    >
-      <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-        Add New Superhero
-      </h2>
-      <div className="flex flex-col md:flex-row md:space-x-4">
-        {/* Name Input */}
-        <div className="flex flex-col mb-4 md:mb-0">
-          <label htmlFor="name" className="mb-2 text-gray-600">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter superhero name"
-            required
-          />
-        </div>
-
-        {/* Superpower Input */}
-        <div className="flex flex-col mb-4 md:mb-0">
-          <label htmlFor="superpower" className="mb-2 text-gray-600">
-            Superpower
-          </label>
-          <input
-            type="text"
-            id="superpower"
-            value={superpower}
-            onChange={(e) => setSuperpower(e.target.value)}
-            className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter superpower"
-            required
-          />
-        </div>
-
-        {/* Humility Score Input */}
-        <div className="flex flex-col mb-4 md:mb-0">
-          <label htmlFor="humilityScore" className="mb-2 text-gray-600">
-            Humility Score
-          </label>
-          <input
-            type="number"
-            id="humilityScore"
-            value={humilityScore}
-            onChange={(e) => setHumilityScore(e.target.value)}
-            className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter humility score"
-            required
-            min="1"
-            max="10"
-          />
-        </div>
-      </div>
-
-      {/* Submit Button */}
-      <button
-        type="submit"
-        className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-        disabled={createSuperheroMutation.isPending}
+    <div className="w-full max-w-6xl px-4 mb-4 mt-2">
+      <form
+        onSubmit={handleAddSuperhero}
+        className="w-full bg-white shadow-lg rounded-lg border border-gray-200"
       >
-        {createSuperheroMutation.isPending ? "Adding..." : "Add Superhero"}
-      </button>
-    </form>
+        <div className="flex items-center gap-4 p-4">
+          {/* Name Input */}
+          <div className="flex-1">
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-3 py-2 border-b-2 border-transparent focus:border-blue-500 focus:outline-none"
+              placeholder="Superman"
+              aria-label="Superhero name"
+            />
+          </div>
+
+          {/* Superpower Input */}
+          <div className="flex-1">
+            <input
+              type="text"
+              id="superpower"
+              value={superpower}
+              onChange={(e) => setSuperpower(e.target.value)}
+              className="w-full px-3 py-2 border-b-2 border-transparent focus:border-blue-500 focus:outline-none"
+              placeholder="Flying"
+              aria-label="Superpower"
+            />
+          </div>
+
+          {/* Humility Score Input */}
+          <div className="flex-1">
+            <input
+              type="number"
+              id="humilityScore"
+              value={humilityScore}
+              onChange={(e) => setHumilityScore(e.target.value)}
+              className="w-full px-3 py-2 border-b-2 border-transparent focus:border-blue-500 focus:outline-none appearance-none"
+              placeholder="10"
+              min="1"
+              max="10"
+              aria-label="Humility score"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[120px]"
+            disabled={createSuperheroMutation.isPending}
+          >
+            {createSuperheroMutation.isPending ? (
+              <>
+                <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Adding...
+              </>
+            ) : (
+              'Add'
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
